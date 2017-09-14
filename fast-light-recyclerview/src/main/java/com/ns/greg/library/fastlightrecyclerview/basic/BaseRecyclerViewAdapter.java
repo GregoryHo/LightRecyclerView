@@ -118,6 +118,12 @@ public abstract class BaseRecyclerViewAdapter<T>
     return false;
   }
 
+  public T getItem(int index) {
+    synchronized (list) {
+      return BaseAdapterHelper.getListItem(list, index);
+    }
+  }
+
   protected abstract boolean isAutoLoadEnable();
 
   protected abstract int getInitItemCount();
