@@ -24,17 +24,11 @@ public abstract class BaseRecyclerViewAdapter<T>
   }
 
   private AdapterLoadMoreListener loadMoreListener;
-
   private int visibleItemThreshold = VISIBLE_ITEM_THRESHOLD;
-
   private int validItemCount = VALID_ITEM_COUNT;
-
   private boolean isLoading;
-
   private int currentItemCount;
-
   private final List<T> list = new ArrayList<>();
-
   private RecyclerViewHandler handler;
 
   public BaseRecyclerViewAdapter() {
@@ -110,7 +104,6 @@ public abstract class BaseRecyclerViewAdapter<T>
     synchronized (list) {
       if (BaseAdapterHelper.checkIsLegalIndex(list, index)) {
         list.remove(index);
-
         return true;
       }
     }
@@ -121,6 +114,36 @@ public abstract class BaseRecyclerViewAdapter<T>
   public T getItem(int index) {
     synchronized (list) {
       return BaseAdapterHelper.getListItem(list, index);
+    }
+  }
+
+  public int getIndex(T item) {
+    synchronized (list) {
+      if (list.contains(item)) {
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+          if (list.get(i).equals(item)) {
+            return i;
+          }
+        }
+      }
+    }
+
+    return -1;
+  }
+
+  public void setItem(int index, T item) {
+    synchronized (list) {
+      list.set(index, item);
+    }
+  }
+
+  public void setItem(T oldItem, T newItem) {
+    int index = getIndex(oldItem);
+    if (index > -1) {
+      synchronized (list) {
+        list.set(index, newItem);
+      }
     }
   }
 
