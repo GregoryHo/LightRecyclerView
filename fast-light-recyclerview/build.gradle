@@ -3,14 +3,13 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 // Library version
-version = "1.0.3.s22"
+version = "1.0.5"
 android {
-  compileSdkVersion 22
-  buildToolsVersion "25.0.3"
-
+  compileSdkVersion 26
+  buildToolsVersion "26.0.2"
   defaultConfig {
     minSdkVersion 16
-    targetSdkVersion 22
+    targetSdkVersion 26
     versionCode 1
     versionName version
   }
@@ -65,12 +64,21 @@ task sourcesJar(type: Jar) {
   classifier = 'sources'
 }
 task javadoc(type: Javadoc) {
+  options.encoding = 'UTF-8'
   source = android.sourceSets.main.java.srcDirs
   classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
 }
 task javadocJar(type: Jar, dependsOn: javadoc) {
   classifier = 'javadoc'
   from javadoc.destinationDir
+}
+javadoc {
+  options {
+    encoding 'UTF-8'
+    charSet 'UTF-8'
+    author true
+    version true
+  }
 }
 artifacts {
   archives javadocJar
@@ -93,7 +101,7 @@ bintray {
 }
 
 dependencies {
-  final SUPPORT_VERSION = '22.2.1'
+  final SUPPORT_VERSION = '26.1.0'
 
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
