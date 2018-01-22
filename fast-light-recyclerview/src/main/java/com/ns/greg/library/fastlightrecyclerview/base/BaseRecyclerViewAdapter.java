@@ -1,41 +1,40 @@
-package com.ns.greg.library.fastlightrecyclerview.basic;
+package com.ns.greg.library.fastlightrecyclerview.base;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import com.ns.greg.library.fastlightrecyclerview.utils.AdapterHelper;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Created by Gregory on 2016/6/30.
+ * @author Gregory
+ * @since 2016/6/30
  */
 public abstract class BaseRecyclerViewAdapter<T>
     extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
 
   public static final int VISIBLE_ITEM_THRESHOLD = 15;
-
   public static final int VALID_ITEM_COUNT = 30;
 
-  public interface AdapterLoadMoreListener {
-
-    void onLoadMore();
-  }
-
-  private AdapterLoadMoreListener loadMoreListener;
+  private final List<T> list;
+  private final RecyclerViewHandler handler;
+  private final AtomicBoolean atomicLoading;
+  private boolean autoLoad = false;
   private int visibleItemThreshold = VISIBLE_ITEM_THRESHOLD;
   private int validItemCount = VALID_ITEM_COUNT;
-  private boolean isLoading;
   private int currentItemCount;
-  private final List<T> list = new ArrayList<>();
-  private RecyclerViewHandler handler;
 
-  public BaseRecyclerViewAdapter() {
+  BaseRecyclerViewAdapter() {
+    list = new ArrayList<>();
     handler = new RecyclerViewHandler(Looper.getMainLooper());
+    atomicLoading = new AtomicBoolean();
   }
 
-  public void postNotify() {
+  void postNotify() {
     handler.post(new Runnable() {
       @Override public void run() {
         notifyDataSetChanged();
@@ -44,9 +43,9 @@ public abstract class BaseRecyclerViewAdapter<T>
   }
 
   @Override public int getItemCount() {
-    if (!isAutoLoadEnable()) { // Default
+    if (!isAutoLoad()) {
       return getCollectionSize();
-    } else { // Using load more listener
+    } else {
       if (getCollectionSize() < currentItemCount + VALID_ITEM_COUNT) {
         currentItemCount = getCollectionSize();
       } else {
@@ -88,7 +87,7 @@ public abstract class BaseRecyclerViewAdapter<T>
 
   public void removeItem(int index) {
     synchronized (list) {
-      if (BaseAdapterHelper.checkIsLegalIndex(list, index)) {
+      if (AdapterHelper.checkIsLegalIndex(list, index)) {
         list.remove(index);
       }
     }
@@ -102,7 +101,7 @@ public abstract class BaseRecyclerViewAdapter<T>
 
   public boolean removeItemSucceeded(int index) {
     synchronized (list) {
-      if (BaseAdapterHelper.checkIsLegalIndex(list, index)) {
+      if (AdapterHelper.checkIsLegalIndex(list, index)) {
         list.remove(index);
         return true;
       }
@@ -113,7 +112,7 @@ public abstract class BaseRecyclerViewAdapter<T>
 
   public T getItem(int index) {
     synchronized (list) {
-      return BaseAdapterHelper.getListItem(list, index);
+      return AdapterHelper.getListItem(list, index);
     }
   }
 
@@ -147,16 +146,14 @@ public abstract class BaseRecyclerViewAdapter<T>
     }
   }
 
-  protected abstract boolean isAutoLoadEnable();
-
   protected abstract int getInitItemCount();
 
-  public AdapterLoadMoreListener getLoadMoreListener() {
-    return loadMoreListener;
+  public boolean isAutoLoad() {
+    return autoLoad;
   }
 
-  public void setLoadMoreListener(AdapterLoadMoreListener loadMoreListener) {
-    this.loadMoreListener = loadMoreListener;
+  public void setAutoLoad(boolean autoLoad) {
+    this.autoLoad = autoLoad;
   }
 
   public int getVisibleItemThreshold() {
@@ -188,16 +185,16 @@ public abstract class BaseRecyclerViewAdapter<T>
     currentItemCount = itemCount;
   }
 
-  public boolean isLoading() {
-    return isLoading;
-  }
-
-  public void setLoading() {
-    this.isLoading = true;
+  public boolean canLoad() {
+    return atomicLoading.compareAndSet(false, true);
   }
 
   public void setLoaded() {
-    this.isLoading = false;
+    atomicLoading.set(false);
+  }
+
+  public boolean isLoading() {
+    return atomicLoading.get();
   }
 
   private static class RecyclerViewHandler extends Handler {

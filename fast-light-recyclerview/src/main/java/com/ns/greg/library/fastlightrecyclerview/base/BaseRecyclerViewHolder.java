@@ -1,4 +1,4 @@
-package com.ns.greg.library.fastlightrecyclerview.basic;
+package com.ns.greg.library.fastlightrecyclerview.base;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -9,19 +9,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.ns.greg.library.fastlightrecyclerview.listener.OnItemClickListener;
 
 /**
- * Created by Gregory on 2016/4/28.
+ * @author Gregory
+ * @since 2016/4/28
  */
 public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder
     implements IGetViewHelper, View.OnClickListener {
-
-  public interface OnItemClickListener {
-
-    void onRootViewClick(int position);
-
-    void onSpecificViewClick(int id, int position);
-  }
 
   private OnItemClickListener onItemClickListener;
   private SparseArray<View> viewSparseArray;
@@ -67,6 +62,7 @@ public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder
       childView = view.findViewById(id);
       viewSparseArray.put(id, childView);
     }
+
     return (T) childView;
   }
 

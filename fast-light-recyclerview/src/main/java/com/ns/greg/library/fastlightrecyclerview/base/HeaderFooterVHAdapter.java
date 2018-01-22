@@ -1,30 +1,27 @@
-package com.ns.greg.library.fastlightrecyclerview;
+package com.ns.greg.library.fastlightrecyclerview.base;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
-import com.ns.greg.library.fastlightrecyclerview.basic.BaseAdapterHelper;
-import com.ns.greg.library.fastlightrecyclerview.basic.BaseRecyclerViewAdapter;
-import com.ns.greg.library.fastlightrecyclerview.basic.BaseRecyclerViewHolder;
+import com.ns.greg.library.fastlightrecyclerview.utils.AdapterHelper;
 import java.util.List;
 
 /**
- * Created by Gregory on 2016/7/12.
+ * @author Gregory
+ * @since 2016/7/12
  */
-public abstract class BaseHeaderFooterVHAdapter<HVH extends BaseRecyclerViewHolder, FVH extends BaseRecyclerViewHolder, BVH extends BaseRecyclerViewHolder, T>
+public abstract class HeaderFooterVHAdapter<HVH extends BaseRecyclerViewHolder, FVH extends BaseRecyclerViewHolder, BVH extends BaseRecyclerViewHolder, T>
     extends BaseRecyclerViewAdapter<T> {
-
-  private static final String TAG = "HeaderFooterVHAdapter";
 
   public static final int HEADER_VIEW = 1;
   public static final int BODY_VIEW = 2;
   public static final int FOOTER_VIEW = 3;
 
-  private boolean hasHeader;
-  private boolean hasFooter;
+  private final boolean hasHeader;
+  private final boolean hasFooter;
   private Context context;
 
-  public BaseHeaderFooterVHAdapter(boolean hasHeader, boolean hasFooter, Context context,
+  public HeaderFooterVHAdapter(boolean hasHeader, boolean hasFooter, Context context,
       @NonNull List<T> list) {
     this.hasHeader = hasHeader;
     this.hasFooter = hasFooter;
@@ -58,8 +55,9 @@ public abstract class BaseHeaderFooterVHAdapter<HVH extends BaseRecyclerViewHold
 
   protected abstract BaseRecyclerViewHolder onCreateFooterViewHolderImp(ViewGroup parent);
 
-  @Override public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
-    T listItem = BaseAdapterHelper.getListItem((List<T>) getCollection(), position);
+  @SuppressWarnings("unchecked") @Override
+  public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
+    T listItem = AdapterHelper.getListItem((List<T>) getCollection(), position);
     if (listItem == null) {
       //throw new IllegalStateException("Incorrect ViewHolder found");
     } else {

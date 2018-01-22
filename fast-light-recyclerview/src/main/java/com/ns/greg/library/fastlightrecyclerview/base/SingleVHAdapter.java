@@ -1,22 +1,21 @@
-package com.ns.greg.library.fastlightrecyclerview;
+package com.ns.greg.library.fastlightrecyclerview.base;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
-import com.ns.greg.library.fastlightrecyclerview.basic.BaseAdapterHelper;
-import com.ns.greg.library.fastlightrecyclerview.basic.BaseRecyclerViewAdapter;
-import com.ns.greg.library.fastlightrecyclerview.basic.BaseRecyclerViewHolder;
+import com.ns.greg.library.fastlightrecyclerview.utils.AdapterHelper;
 import java.util.List;
 
 /**
- * Created by Gregory on 2016/6/30.
+ * @author Gregory
+ * @since 2016/6/30
  */
-public abstract class BaseSingleVHAdapter<VH extends BaseRecyclerViewHolder, T>
+public abstract class SingleVHAdapter<VH extends BaseRecyclerViewHolder, T>
     extends BaseRecyclerViewAdapter<T> {
 
   private Context context;
 
-  public BaseSingleVHAdapter(Context context, @NonNull List<T> list) {
+  public SingleVHAdapter(Context context, @NonNull List<T> list) {
     this.context = context;
     addItems(list);
   }
@@ -27,8 +26,9 @@ public abstract class BaseSingleVHAdapter<VH extends BaseRecyclerViewHolder, T>
 
   protected abstract BaseRecyclerViewHolder onCreateViewHolderImp(ViewGroup parent);
 
-  @Override public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
-    T listItem = BaseAdapterHelper.getListItem((List<T>) getCollection(), position);
+  @SuppressWarnings("unchecked") @Override
+  public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
+    T listItem = AdapterHelper.getListItem((List<T>) getCollection(), position);
     if (listItem == null) {
       throw new IllegalStateException("Incorrect ViewHolder found");
     } else {

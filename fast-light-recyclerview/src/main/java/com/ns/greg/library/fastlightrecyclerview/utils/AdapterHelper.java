@@ -1,13 +1,14 @@
-package com.ns.greg.library.fastlightrecyclerview.basic;
+package com.ns.greg.library.fastlightrecyclerview.utils;
 
 import android.support.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by Gregory on 2016/6/30.
+ * @author Gregory
+ * @since 2016/6/30
  */
-public class BaseAdapterHelper {
+public class AdapterHelper {
 
   /**
    * Gets the list item held at the specified adapter position.

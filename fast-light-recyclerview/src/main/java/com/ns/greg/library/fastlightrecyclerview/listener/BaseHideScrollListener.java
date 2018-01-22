@@ -1,9 +1,10 @@
-package com.ns.greg.library.fastlightrecyclerview.basic;
+package com.ns.greg.library.fastlightrecyclerview.listener;
 
 import android.support.v7.widget.RecyclerView;
 
 /**
- * Created by Gregory on 2016/6/28.
+ * @author Gregory
+ * @since 2016/6/28
  */
 public abstract class BaseHideScrollListener extends RecyclerView.OnScrollListener {
 
@@ -13,12 +14,10 @@ public abstract class BaseHideScrollListener extends RecyclerView.OnScrollListen
   private boolean isHeaderVisible = false;
 
   @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-    super.onScrollStateChanged(recyclerView, newState);
+
   }
 
   @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-    super.onScrolled(recyclerView, dx, dy);
-
     if (scrolledDistance > SCROLL_THRESHOLD && isHeaderVisible) {
       hideHeaderViewAnimateImp(recyclerView);
     } else if (scrolledDistance < -SCROLL_THRESHOLD && !isHeaderVisible) {
