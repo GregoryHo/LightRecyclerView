@@ -2,15 +2,15 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 Properties properties = new Properties()
-File localProperties = project.file("local.properties")
+File localProperties = project.rootProject.file("local.properties")
 if (localProperties.exists()) {
   properties.load(localProperties.newDataInputStream())
 }
 
 // Home page url
-def siteUrl = 'https://github.com/GregoryHo/FastAndLightRecyclerView'
+def siteUrl = 'https://github.com/GregoryHo/LightRecyclerView'
 // git repository url
-def gitUrl = 'https://github.com/GregoryHo/FastAndLightRecyclerView.git'
+def gitUrl = 'https://github.com/GregoryHo/LightRecyclerView.git'
 // Maven Group ID for the artifact，
 group = "greg.ns.library"
 install {

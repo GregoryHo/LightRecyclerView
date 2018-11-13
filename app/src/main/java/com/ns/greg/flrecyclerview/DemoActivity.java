@@ -50,7 +50,7 @@ public class DemoActivity extends AppCompatActivity implements OnItemClickListen
     recyclerView.setAdapter(autoLoadAdapter);
     recyclerView.setHasFixedSize(true);
     LinearLayoutManager layoutManager =
-        new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.addOnScrollListener(new LoadMoreScrollListener());
     recyclerView.addItemDecoration(new EasyDecoration.Builder().setMargin(10, 10, 10, 10)
@@ -65,7 +65,7 @@ public class DemoActivity extends AppCompatActivity implements OnItemClickListen
     recyclerView.setAdapter(adapter);
     recyclerView.setHasFixedSize(true);
     LinearLayoutManager layoutManager =
-        new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        new LinearLayoutManager(getApplicationContext(), RecyclerView.HORIZONTAL, false);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.addOnScrollListener(new LoadMoreScrollListener());
     // Don't know why the bottom margin not working correctly at HORIZONTAL orientation
