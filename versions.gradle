@@ -1,0 +1,43 @@
+// build versions defined
+def buildVersions = [:]
+buildVersions.minSdk = 17
+buildVersions.targetSdk = 28
+buildVersions.compileSdk = 28
+buildVersions.buildTools = "28.0.3"
+buildVersions.sourceCompatibility = JavaVersion.VERSION_1_8
+buildVersions.targetCompatibility = JavaVersion.VERSION_1_8
+ext.buildVersions = buildVersions
+/**
+ * Shared file between builds so that they can all use the same dependencies and
+ * maven repositories.
+ **/
+ext.deps = [:]
+// dependencies versions defined
+def versions = [:]
+versions.androidGradlePlugin = "3.2.1"
+versions.supportLibrary = "1.0.0"
+// dependencies defined
+def deps = [:]
+// Gradle
+def gradle = [:]
+gradle.android = "com.android.tools.build:gradle:$versions.androidGradlePlugin"
+deps.gradle = gradle
+// Android support
+def android = [:]
+android.support = [
+    'appCompat': "androidx.appcompat:appcompat:$versions.supportLibrary",
+    'recyclerView': "androidx.recyclerview:recyclerview:$versions.supportLibrary"
+]
+deps.android = android
+ext.deps = deps
+
+static def addRepos(RepositoryHandler handler) {
+  handler.google()
+  handler.jcenter()
+  handler.mavenCentral()
+  handler.maven {
+    url 'https://dl.bintray.com/gregoryho/maven'
+  }
+}
+
+ext.addRepos = this.&addRepos

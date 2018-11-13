@@ -1,6 +1,6 @@
 package com.ns.greg.library.fastlightrecyclerview.utils;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 

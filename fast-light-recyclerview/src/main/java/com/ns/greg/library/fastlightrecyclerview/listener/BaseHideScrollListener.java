@@ -1,6 +1,6 @@
 package com.ns.greg.library.fastlightrecyclerview.listener;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author Gregory

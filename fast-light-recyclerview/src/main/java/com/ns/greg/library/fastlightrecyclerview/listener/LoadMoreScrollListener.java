@@ -1,7 +1,7 @@
 package com.ns.greg.library.fastlightrecyclerview.listener;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.ns.greg.library.fastlightrecyclerview.base.BaseRecyclerViewAdapter;
 
 /**

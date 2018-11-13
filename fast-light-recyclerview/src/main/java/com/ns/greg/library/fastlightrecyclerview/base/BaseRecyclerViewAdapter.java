@@ -3,7 +3,7 @@ package com.ns.greg.library.fastlightrecyclerview.base;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import com.ns.greg.library.fastlightrecyclerview.utils.AdapterHelper;
 import java.util.ArrayList;
 import java.util.Collection;

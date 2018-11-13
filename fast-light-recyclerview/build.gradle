@@ -1,15 +1,13 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
 // Library version
-version = "1.0.5"
+version = "1.1.0"
 android {
-  compileSdkVersion 26
-  buildToolsVersion "26.0.2"
+  compileSdkVersion buildVersions.compileSdk
+  buildToolsVersion buildVersions.buildTools
   defaultConfig {
-    minSdkVersion 16
-    targetSdkVersion 26
+    minSdkVersion buildVersions.minSdk
+    targetSdkVersion buildVersions.targetSdk
     versionCode 1
     versionName version
   }
@@ -21,90 +19,9 @@ android {
   }
 }
 
-// Home page url
-def siteUrl = 'https://github.com/GregoryHo/FastAndLightRecyclerView'
-// git repository url
-def gitUrl = 'https://github.com/GregoryHo/FastAndLightRecyclerView.git'
-// Maven Group ID for the artifact，
-group = "greg.ns.library"
-install {
-  repositories.mavenInstaller {
-    // This generates POM.xml with proper parameters
-    pom {
-      project {
-        packaging 'aar'
-        // Add your description here
-        name 'A module of recyclerview'
-        url siteUrl
-        // Set your license
-        licenses {
-          license {
-            name 'MIT License'
-            url 'https://opensource.org/licenses/MIT'
-          }
-        }
-        developers {
-          developer {
-            id 'Gregory'
-            name 'Gregory'
-            email 'greghojob@gmail.com'
-          }
-        }
-        scm {
-          connection gitUrl
-          developerConnection gitUrl
-          url siteUrl
-        }
-      }
-    }
-  }
-}
-task sourcesJar(type: Jar) {
-  from android.sourceSets.main.java.srcDirs
-  classifier = 'sources'
-}
-task javadoc(type: Javadoc) {
-  options.encoding = 'UTF-8'
-  source = android.sourceSets.main.java.srcDirs
-  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-  classifier = 'javadoc'
-  from javadoc.destinationDir
-}
-javadoc {
-  options {
-    encoding 'UTF-8'
-    charSet 'UTF-8'
-    author true
-    version true
-  }
-}
-artifacts {
-  archives javadocJar
-  archives sourcesJar
-}
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-bintray {
-  user = properties.getProperty("bintray.user")
-  key = properties.getProperty("bintray.apikey")
-  configurations = ['archives']
-  pkg {
-    repo = "maven"
-    name = "fast-light-recyclerview"
-    websiteUrl = siteUrl
-    vcsUrl = gitUrl
-    licenses = ["MIT"]
-    publish = true
-  }
-}
-
 dependencies {
-  final SUPPORT_VERSION = '26.1.0'
-
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  testCompile 'junit:junit:4.12'
-  compile "com.android.support:appcompat-v7:$SUPPORT_VERSION"
-  compile "com.android.support:recyclerview-v7:$SUPPORT_VERSION"
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation deps.android.support.appCompat
+  api deps.android.support.recyclerView
+  testImplementation 'junit:junit:4.12'
 }

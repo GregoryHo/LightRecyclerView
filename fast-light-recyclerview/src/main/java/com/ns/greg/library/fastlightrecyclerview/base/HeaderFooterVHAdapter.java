@@ -1,8 +1,8 @@
 package com.ns.greg.library.fastlightrecyclerview.base;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
 import com.ns.greg.library.fastlightrecyclerview.utils.AdapterHelper;
 import java.util.List;
 
