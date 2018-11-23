@@ -20,13 +20,15 @@ public class EasyDecoration extends RecyclerView.ItemDecoration {
   private final int orientation;
   private final ColorDrawable dividerDrawable;
   private final int dividerSize;
+  private final int dividerOffset;
 
   private EasyDecoration(Rect rect, int orientation, ColorDrawable dividerDrawable,
-      int dividerSize) {
+      int dividerSize, int dividerOffset) {
     this.rect = rect;
     this.orientation = orientation;
     this.dividerDrawable = dividerDrawable;
     this.dividerSize = dividerSize;
+    this.dividerOffset = dividerOffset;
   }
 
   @Override public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
@@ -56,8 +58,8 @@ public class EasyDecoration extends RecyclerView.ItemDecoration {
     int right = parent.getRight() - rect.right - parent.getPaddingRight();
     int bottom;
     int offset = (rect.bottom + dividerSize) / 2;
-    // minus one because the last item no needs to draw line
-    int childCount = parent.getChildCount() - 1;
+    // minus offset, those items no needs to draw line
+    int childCount = parent.getChildCount() - dividerOffset;
     for (int i = 0; i < childCount; i++) {
       View child = parent.getChildAt(i);
       RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
@@ -73,10 +75,9 @@ public class EasyDecoration extends RecyclerView.ItemDecoration {
     int top = rect.top + parent.getPaddingTop();
     int right;
     int bottom = parent.getBottom() - rect.bottom - parent.getPaddingBottom();
-    System.out.println("bottom: " + parent.getBottom());
     int offset = (rect.right + dividerSize) / 2;
-    // minus one because the last item no needs to draw line
-    int childCount = parent.getChildCount() - 1;
+    // minus offset, those items no needs to draw line
+    int childCount = parent.getChildCount() - dividerOffset;
     for (int i = 0; i < childCount; i++) {
       View child = parent.getChildAt(i);
       RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
@@ -93,12 +94,14 @@ public class EasyDecoration extends RecyclerView.ItemDecoration {
     private int orientation;
     private ColorDrawable dividerDrawable;
     private int dividerSize;
+    private int dividerOffset;
 
     public Builder() {
       this.rect = new Rect();
       orientation = -1;
       dividerDrawable = new ColorDrawable(Color.BLACK);
       dividerSize = 4;
+      dividerOffset = 0;
     }
 
     public Builder setMarginLeft(int left) {
@@ -157,6 +160,11 @@ public class EasyDecoration extends RecyclerView.ItemDecoration {
       return this;
     }
 
+    public Builder setDividerOffset(int offset) {
+      this.dividerOffset = offset;
+      return this;
+    }
+
     public EasyDecoration build() {
       if (orientation == LinearLayoutManager.VERTICAL) {
         rect.bottom = rect.bottom + dividerSize;
@@ -164,7 +172,7 @@ public class EasyDecoration extends RecyclerView.ItemDecoration {
         rect.right = rect.right + dividerSize;
       }
 
-      return new EasyDecoration(rect, orientation, dividerDrawable, dividerSize);
+      return new EasyDecoration(rect, orientation, dividerDrawable, dividerSize, dividerOffset);
     }
   }
 }
