@@ -28,7 +28,7 @@ public abstract class BaseRecyclerViewAdapter<T>
   private int validItemCount = VALID_ITEM_COUNT;
   private int currentItemCount;
 
-  BaseRecyclerViewAdapter() {
+  public BaseRecyclerViewAdapter() {
     list = new ArrayList<>();
     handler = new RecyclerViewHandler(Looper.getMainLooper());
     atomicLoading = new AtomicBoolean();
