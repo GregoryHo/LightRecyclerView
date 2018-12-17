@@ -61,6 +61,7 @@ public abstract class HeaderFooterVHAdapter<HVH extends BaseRecyclerViewHolder, 
     if (listItem == null) {
       //throw new IllegalStateException("Incorrect ViewHolder found");
     } else {
+      holder.setItemClickable();
       if (holder.getItemViewType() == HEADER_VIEW) {
         onBindHeaderViewHolderImp((HVH) holder, position, listItem);
       } else if (holder.getItemViewType() == FOOTER_VIEW) {
